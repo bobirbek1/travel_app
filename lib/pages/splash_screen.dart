@@ -67,9 +67,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 milliseconds: 1000,
               ),
               top: 76,
-              width: shouldAnimate ? 310 : 0,
+              left: shouldAnimate ? 0 : -230,
               child: getDivider(),
-              onEnd: () {},
               curve: Curves.easeInExpo,
             ),
             AnimatedPositioned(
@@ -120,40 +119,31 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget getDivider() {
     return Row(
       children: [
-        Expanded(
-          flex: 15,
-          child: Container(
-            width: 213,
-            height: 1,
-            color: const Color(
-              AppColors.dividerColor,
-            ),
+        Container(
+          width: 213,
+          height: 1,
+          color: const Color(
+            AppColors.dividerColor,
           ),
         ),
-        Expanded(
-          flex: 5,
-          child: Container(
-            width: 44,
-            height: 1,
-            margin: const EdgeInsets.only(
-              left: 12,
-            ),
-            color: const Color(
-              AppColors.dividerColor,
-            ),
+        Container(
+          width: 44,
+          height: 1,
+          margin: const EdgeInsets.only(
+            left: 12,
+          ),
+          color: const Color(
+            AppColors.dividerColor,
           ),
         ),
-        Expanded(
-          flex: 3,
-          child: Container(
-            width: 25,
-            height: 1,
-            margin: const EdgeInsets.only(
-              left: 12,
-            ),
-            color: const Color(
-              AppColors.dividerColor,
-            ),
+        Container(
+          width: 25,
+          height: 1,
+          margin: const EdgeInsets.only(
+            left: 12,
+          ),
+          color: const Color(
+            AppColors.dividerColor,
           ),
         ),
       ],
@@ -191,7 +181,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void setTimer() {
     var counter = 0;
     _timer = Timer.periodic(
-      const Duration(milliseconds: 500,),
+      const Duration(
+        milliseconds: 500,
+      ),
       (Timer timer) {
         if (counter == 1) {
           animationState(true, timer);
