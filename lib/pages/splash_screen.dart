@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:travel_app/data/colors/colors.dart';
+import 'package:travel_app/data/app_routes/app_routes.dart';
+import 'package:travel_app/data/resourses/colors.dart';
+import 'package:travel_app/widgets/divider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,18 +15,15 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   var shouldAnimate = false;
-  Timer? _timer;
-
-  void animationState(bool shouldAnimate, Timer timer) {
+  void animationState(bool shouldAnimate) {
     setState(() {
       this.shouldAnimate = shouldAnimate;
-      timer.cancel();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!shouldAnimate) setTimer();
+    if (!shouldAnimate) startAnimation();
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
@@ -68,7 +67,9 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               top: 76,
               left: shouldAnimate ? 0 : -230,
-              child: getDivider(),
+              child: const AppDivider(
+                Color(AppColors.dividerColor),
+              ),
               curve: Curves.easeInExpo,
             ),
             AnimatedPositioned(
@@ -104,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
               duration: const Duration(
                 milliseconds: 1000,
               ),
-              child: getButton(),
+              child: getButton(context),
               bottom: shouldAnimate ? 37 : -74,
               left: 18,
               right: 18,
@@ -116,41 +117,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Widget getDivider() {
-    return Row(
-      children: [
-        Container(
-          width: 213,
-          height: 1,
-          color: const Color(
-            AppColors.dividerColor,
-          ),
-        ),
-        Container(
-          width: 44,
-          height: 1,
-          margin: const EdgeInsets.only(
-            left: 12,
-          ),
-          color: const Color(
-            AppColors.dividerColor,
-          ),
-        ),
-        Container(
-          width: 25,
-          height: 1,
-          margin: const EdgeInsets.only(
-            left: 12,
-          ),
-          color: const Color(
-            AppColors.dividerColor,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget getButton() {
+  Widget getButton(BuildContext context) {
     return InkWell(
       child: Container(
         width: double.infinity,
@@ -174,28 +141,19 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
       ),
-      onTap: () => {},
-    );
-  }
-
-  void setTimer() {
-    var counter = 0;
-    _timer = Timer.periodic(
-      const Duration(
-        milliseconds: 500,
-      ),
-      (Timer timer) {
-        if (counter == 1) {
-          animationState(true, timer);
-        }
-        counter++;
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          AppRoutes.EntranceScreen,
+        );
       },
     );
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+  void startAnimation() async {
+    await Future.delayed(
+      const Duration(milliseconds: 100),
+    );
+    animationState(true);
   }
 }
